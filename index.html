@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>Personal Finance Dashboard</title>
 
     <link rel="stylesheet" href="style.css">
@@ -17,7 +20,7 @@
         <h1>💰 Personal Finance Dashboard</h1>
 
         <p>
-            Track your income and expenses.
+            Track your income and expenses
         </p>
 
     </header>
@@ -26,9 +29,11 @@
 
         <div class="card">
 
-            <h3>Balance</h3>
+            <h3>Total Balance</h3>
 
-            <h2 id="balance">$0</h2>
+            <h2 id="balance">
+                Rs. 0
+            </h2>
 
         </div>
 
@@ -36,7 +41,9 @@
 
             <h3>Income</h3>
 
-            <h2 id="income">$0</h2>
+            <h2 id="income">
+                Rs. 0
+            </h2>
 
         </div>
 
@@ -44,29 +51,48 @@
 
             <h3>Expenses</h3>
 
-            <h2 id="expense">$0</h2>
+            <h2 id="expense">
+                Rs. 0
+            </h2>
 
         </div>
 
     </section>
 
-    <section class="transaction-form">
+    <section class="add-transaction">
 
         <h2>Add Transaction</h2>
 
         <form id="transaction-form">
 
             <input
-                id="description"
+                id="title"
                 type="text"
-                placeholder="Description"
+                placeholder="Transaction title"
+                required
             >
 
             <input
                 id="amount"
                 type="number"
-                placeholder="Amount"
+                placeholder="Amount (Rs.)"
+                required
             >
+
+            <select id="category">
+
+                <option>Food</option>
+                <option>Transport</option>
+                <option>Shopping</option>
+                <option>Rent</option>
+                <option>Education</option>
+                <option>Bills</option>
+                <option>Health</option>
+                <option>Entertainment</option>
+                <option>Salary</option>
+                <option>Other</option>
+
+            </select>
 
             <select id="type">
 
@@ -90,9 +116,9 @@
 
     </section>
 
-    <section>
+    <section class="transactions">
 
-        <h2>Transactions</h2>
+        <h2>Recent Transactions</h2>
 
         <div id="transaction-list">
 
@@ -110,4 +136,5 @@
 <script src="js/app.js"></script>
 
 </body>
+
 </html>
