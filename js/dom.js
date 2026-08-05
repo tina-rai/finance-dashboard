@@ -1,23 +1,25 @@
-const form =
-document.getElementById("transaction-form");
+const form = document.getElementById("transaction-form");
 
-const descriptionInput =
-document.getElementById("description");
+const titleInput =
+    document.getElementById("title");
 
 const amountInput =
-document.getElementById("amount");
+    document.getElementById("amount");
 
-const typeSelect =
-document.getElementById("type");
+const categoryInput =
+    document.getElementById("category");
 
-const balance =
-document.getElementById("balance");
-
-const income =
-document.getElementById("income");
-
-const expense =
-document.getElementById("expense");
+const typeInput =
+    document.getElementById("type");
 
 const transactionList =
-document.getElementById("transaction-list");
+    document.getElementById("transaction-list");
+
+const balance =
+    document.getElementById("balance");
+
+const income =
+    document.getElementById("income");
+
+const expense =
+    document.getElementById("expense");
