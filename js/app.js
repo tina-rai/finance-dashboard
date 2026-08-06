@@ -1,34 +1,55 @@
+if(localStorage.getItem("theme")==="dark"){
+
+    document.body.classList.add("dark");
+
+    themeToggle.textContent=
+        "☀️ Light Mode";
+
+}
+themeToggle.addEventListener(
+    "click",
+    toggleTheme
+);
+
+
+
 form.addEventListener("submit", event => {
 
     event.preventDefault();
 
     const title = titleInput.value.trim();
-const amount = Number(amountInput.value);
+    const amount = Number(amountInput.value);
 
-if (title === "" || amount <= 0) {
-    alert("Please fill all fields correctly.");
-    return;
-}
+    if (title === "" || amount <= 0) {
+        alert("Please fill all fields correctly.");
+        return;
+    }
 
-const transaction = {
-    title: titleInput.value.trim(),
-    amount: Number(amountInput.value),
-    category: categoryInput.value,
-    type: typeInput.value,
-    date: new Date().toISOString()
-};
+    const transaction = {
+        title,
+        amount,
+        category: categoryInput.value,
+        type: typeInput.value,
+        date: new Date().toISOString()
+    };
 
+    if (editingIndex === -1) {
 
-if (
-    transaction.title === "" ||
-    transaction.amount <= 0
-) {
+        addTransaction(transaction);
 
-    alert("Please enter valid transaction details.");
+    } else {
 
-    return;
-}
-    addTransaction(transaction);
+        updateTransaction(
+            editingIndex,
+            transaction
+        );
+
+        editingIndex = -1;
+
+        form.querySelector("button").textContent =
+            "Add Transaction";
+
+    }
 
     renderTransactions();
 
@@ -38,20 +59,44 @@ if (
 
 renderTransactions();
 
-transactionList.addEventListener("click",(event)=>{
+transactionList.addEventListener("click", event => {
 
-    if(!event.target.classList.contains("delete-btn")){
+    const index =
+        Number(event.target.dataset.id);
+
+    if (event.target.classList.contains("delete-btn")) {
+
+        deleteTransaction(index);
+
+        renderTransactions();
 
         return;
 
     }
 
-    const index=
-        Number(event.target.dataset.id);
+    if (event.target.classList.contains("edit-btn")) {
 
-    deleteTransaction(index);
+        const transaction =
+            getTransaction(index);
 
-    renderTransactions();
+        titleInput.value =
+            transaction.title;
+
+        amountInput.value =
+            transaction.amount;
+
+        categoryInput.value =
+            transaction.category;
+
+        typeInput.value =
+            transaction.type;
+
+        editingIndex = index;
+
+        form.querySelector("button").textContent =
+            "Save Changes";
+
+    }
 
 });
 

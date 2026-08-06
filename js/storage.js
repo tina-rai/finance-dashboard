@@ -24,3 +24,18 @@ function deleteTransaction(index){
     saveTransactions(transactions);
 
 }
+function updateTransaction(index, updatedTransaction) {
+
+    const transactions = getTransactions();
+
+    transactions[index] = updatedTransaction;
+
+    saveTransactions(transactions);
+
+}
+
+function getTransaction(index) {
+
+    return getTransactions()[index];
+
+}

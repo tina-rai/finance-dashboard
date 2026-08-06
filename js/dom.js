@@ -24,8 +24,14 @@ const income =
 const expense =
     document.getElementById("expense");
 
-const sortSelect=
-    document.getElementById("sort");    
+const sortSelect =
+    document.getElementById("sort");
 
 const searchInput =
-    document.getElementById("search-input");    
+    document.getElementById("search-input");
+const themeToggle =
+    document.getElementById("theme-toggle");
+const categorySummary =
+    document.getElementById("category-summary");
+const expenseChart =
+    document.getElementById("expenseChart");
