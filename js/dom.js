@@ -35,3 +35,5 @@ const categorySummary =
     document.getElementById("category-summary");
 const expenseChart =
     document.getElementById("expenseChart");
+const exportButton =
+    document.getElementById("export-btn");

@@ -1,8 +1,8 @@
-if(localStorage.getItem("theme")==="dark"){
+if (localStorage.getItem("theme") === "dark") {
 
     document.body.classList.add("dark");
 
-    themeToggle.textContent=
+    themeToggle.textContent =
         "☀️ Light Mode";
 
 }
@@ -100,13 +100,110 @@ transactionList.addEventListener("click", event => {
 
 });
 
-searchInput.addEventListener("input",()=>{
+searchInput.addEventListener("input", () => {
 
     renderTransactions();
-    
-    });
 
-    sortSelect.addEventListener(
-        "change",
-        renderTransactions
-    );
+});
+
+sortSelect.addEventListener(
+    "change",
+    renderTransactions
+);
+
+exportButton.addEventListener("click", () => {
+
+    const transactions =
+        getTransactions();
+
+    const rows = [
+
+        ["Title", "Amount", "Category", "Type", "Date"],
+
+        ...transactions.map(transaction =>
+
+            [
+
+                transaction.title,
+
+                transaction.amount,
+
+                transaction.category,
+
+                transaction.type,
+
+                transaction.date
+
+            ]
+
+        )
+
+    ];
+
+    const csv =
+        rows.map(row => row.join(",")).join("\n");
+
+    const blob =
+        new Blob([csv], { type: "text/csv" });
+
+    const url =
+        URL.createObjectURL(blob);
+
+    const link =
+        document.createElement("a");
+
+    link.href = url;
+
+    link.download = "transactions.csv";
+
+    link.click();
+
+});
+exportButton.addEventListener("click", () => {
+
+    const transactions =
+        getTransactions();
+
+    const rows = [
+
+        ["Title", "Amount", "Category", "Type", "Date"],
+
+        ...transactions.map(transaction =>
+
+            [
+
+                transaction.title,
+
+                transaction.amount,
+
+                transaction.category,
+
+                transaction.type,
+
+                transaction.date
+
+            ]
+
+        )
+
+    ];
+
+    const csv =
+        rows.map(row => row.join(",")).join("\n");
+
+    const blob =
+        new Blob([csv], { type: "text/csv" });
+
+    const url =
+        URL.createObjectURL(blob);
+
+    const link =
+        document.createElement("a");
+
+    link.href = url;
+
+    link.download = "transactions.csv";
+
+    link.click();
+
+});
