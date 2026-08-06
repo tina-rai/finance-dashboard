@@ -106,6 +106,18 @@
 
             </select>
 
+            <select id="sort">
+
+                <option value="newest">Newest</option>
+                
+                <option value="highest">Highest Amount</option>
+                
+                <option value="lowest">Lowest Amount</option>
+                
+                <option value="az">A-Z</option>
+                
+                </select>
+
             <button type="submit">
 
                 Add Transaction
@@ -119,6 +131,11 @@
     <section class="transactions">
 
         <h2>Recent Transactions</h2>
+
+        <input
+        id="search-input"
+        placeholder="Search transactions..."
+        >
 
         <div id="transaction-list">
 

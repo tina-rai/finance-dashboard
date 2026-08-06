@@ -156,3 +156,53 @@ button:hover{
     font-size:20px;
 
 }
+.transaction-card{
+
+    display:flex;
+    
+    justify-content:space-between;
+    
+    align-items:center;
+    
+    }
+    
+    .transaction-right{
+    
+    display:flex;
+    
+    align-items:center;
+    
+    gap:18px;
+    
+    }
+    
+    .delete-btn{
+    
+    background:#ef4444;
+    
+    color:white;
+    
+    border:none;
+    
+    padding:8px 12px;
+    
+    border-radius:8px;
+    
+    cursor:pointer;
+    
+    transition:.25s;
+    
+    }
+    
+    .delete-btn:hover{
+    
+    transform:scale(1.08);
+    
+    background:#dc2626;
+    
+    }
+    .empty-state{
+        text-align:center;
+        padding:40px;
+        color:#777;
+    }

@@ -14,3 +14,13 @@ function saveTransactions(transactions) {
     );
 
 }
+
+function deleteTransaction(index){
+
+    const transactions=getTransactions();
+
+    transactions.splice(index,1);
+
+    saveTransactions(transactions);
+
+}
