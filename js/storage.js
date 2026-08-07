@@ -15,27 +15,11 @@ function saveTransactions(transactions) {
 
 }
 
-function deleteTransaction(index){
 
-    const transactions=getTransactions();
+function getTransaction(id) {
 
-    transactions.splice(index,1);
-
-    saveTransactions(transactions);
-
-}
-function updateTransaction(index, updatedTransaction) {
-
-    const transactions = getTransactions();
-
-    transactions[index] = updatedTransaction;
-
-    saveTransactions(transactions);
-
-}
-
-function getTransaction(index) {
-
-    return getTransactions()[index];
+    return getTransactions().find(
+        transaction => transaction.id === id
+    );
 
 }

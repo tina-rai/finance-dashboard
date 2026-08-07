@@ -1,3 +1,5 @@
+let editingIndex = null;
+
 if (localStorage.getItem("theme") === "dark") {
 
     document.body.classList.add("dark");
@@ -24,8 +26,10 @@ form.addEventListener("submit", event => {
         alert("Please fill all fields correctly.");
         return;
     }
-
     const transaction = {
+        id: editingIndex === null ?
+            Date.now() : editingIndex,
+
         title,
         amount,
         category: categoryInput.value,
@@ -33,18 +37,19 @@ form.addEventListener("submit", event => {
         date: new Date().toISOString()
     };
 
-    if (editingIndex === -1) {
+    if (editingIndex === null) {
 
         addTransaction(transaction);
 
     } else {
-
+        console.log("Updating ID:", editingIndex);
+        console.log("New transaction:", transaction);
         updateTransaction(
             editingIndex,
             transaction
         );
 
-        editingIndex = -1;
+        editingIndex = null;
 
         form.querySelector("button").textContent =
             "Add Transaction";
@@ -61,12 +66,12 @@ renderTransactions();
 
 transactionList.addEventListener("click", event => {
 
-    const index =
+    const id =
         Number(event.target.dataset.id);
 
     if (event.target.classList.contains("delete-btn")) {
 
-        deleteTransaction(index);
+        deleteTransaction(id);
 
         renderTransactions();
 
@@ -75,9 +80,17 @@ transactionList.addEventListener("click", event => {
     }
 
     if (event.target.classList.contains("edit-btn")) {
+        console.log("Edit clicked", id);
 
         const transaction =
-            getTransaction(index);
+            getTransaction(id);
+        console.log(transaction);
+
+        if (!transaction) {
+            console.log("Transaction not found:", id);
+            return;
+        }
+
 
         titleInput.value =
             transaction.title;
@@ -91,7 +104,7 @@ transactionList.addEventListener("click", event => {
         typeInput.value =
             transaction.type;
 
-        editingIndex = index;
+        editingIndex = id;
 
         form.querySelector("button").textContent =
             "Save Changes";
@@ -113,56 +126,10 @@ sortSelect.addEventListener(
 
 exportButton.addEventListener("click", () => {
 
-    const transactions =
-        getTransactions();
+    const transaction =
+        getTransaction(id);
 
-    const rows = [
-
-        ["Title", "Amount", "Category", "Type", "Date"],
-
-        ...transactions.map(transaction =>
-
-            [
-
-                transaction.title,
-
-                transaction.amount,
-
-                transaction.category,
-
-                transaction.type,
-
-                transaction.date
-
-            ]
-
-        )
-
-    ];
-
-    const csv =
-        rows.map(row => row.join(",")).join("\n");
-
-    const blob =
-        new Blob([csv], { type: "text/csv" });
-
-    const url =
-        URL.createObjectURL(blob);
-
-    const link =
-        document.createElement("a");
-
-    link.href = url;
-
-    link.download = "transactions.csv";
-
-    link.click();
-
-});
-exportButton.addEventListener("click", () => {
-
-    const transactions =
-        getTransactions();
+    editingIndex = id;
 
     const rows = [
 

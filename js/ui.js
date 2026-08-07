@@ -53,7 +53,7 @@ function renderTransactions() {
             
             <div class="transaction-info">
             
-                <h3>${transaction.title}</h3
+                <h3>${transaction.title}</h3>
 
                 <p>${transaction.category}</p>
 
@@ -77,18 +77,18 @@ function renderTransactions() {
     <div class="actions">
 
         <button
-            class="edit-btn"
-            data-id="${index}"
-        >
-            ✏️
-        </button>
+    class="edit-btn"
+    data-id="${transaction.id}"
+>
+    ✏️
+</button>
 
-        <button
-            class="delete-btn"
-            data-id="${index}"
-        >
-            🗑️
-        </button>
+<button
+    class="delete-btn"
+    data-id="${transaction.id}"
+>
+    🗑️
+</button>
 
     </div>
 
