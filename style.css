@@ -8,6 +8,7 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     background: #eef4ff;
     padding: 40px;
+    color: #111827;
 }
 
 .container {
@@ -31,15 +32,18 @@ header {
     background: white;
     border-radius: 15px;
     padding: 25px;
-    text-align: center;
     box-shadow: 0 5px 15px rgba(0, 0, 0, .08);
 }
 
+.summary .card {
+    text-align: center;
+}
+
 .add-transaction {
-    background: white;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, .08);
+    margin-bottom: 40px;
+}
+
+.transactions {
     margin-bottom: 40px;
 }
 
@@ -70,23 +74,19 @@ button:hover {
     background: #1768d1;
 }
 
-.transactions {
-    background: white;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, .08);
-}
-
 #transaction-list {
     margin-top: 20px;
 }
 
 .transaction-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background: #f7f9ff;
     border-radius: 12px;
     padding: 15px;
     margin-bottom: 15px;
-    border-left: 6px solid #2F80ED;
+    border-left: 6px solid #2f80ed;
 }
 
 .transaction-card h3 {
@@ -97,25 +97,33 @@ button:hover {
     font-size: 20px;
 }
 
-.transaction-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
 .transaction-right {
     display: flex;
     align-items: center;
     gap: 18px;
 }
 
+.actions {
+    display: flex;
+    gap: 8px;
+}
+
+.edit-btn,
 .delete-btn {
-    background: #ef4444;
-    color: white;
     border: none;
-    padding: 8px 12px;
+    padding: 8px 10px;
     border-radius: 8px;
     cursor: pointer;
+}
+
+.edit-btn {
+    background: #4caf50;
+    color: white;
+}
+
+.delete-btn {
+    background: #f44336;
+    color: white;
     transition: .25s;
 }
 
@@ -128,29 +136,6 @@ button:hover {
     text-align: center;
     padding: 40px;
     color: #777;
-}
-
-.actions {
-    display: flex;
-    gap: 8px;
-}
-
-.edit-btn {
-    background: #4caf50;
-    color: white;
-}
-
-.delete-btn {
-    background: #f44336;
-    color: white;
-}
-
-.edit-btn,
-.delete-btn {
-    border: none;
-    padding: 8px 10px;
-    border-radius: 8px;
-    cursor: pointer;
 }
 
 
@@ -172,7 +157,7 @@ body.dark header p {
 }
 
 
-/* Cards */
+/* All dashboard cards */
 
 body.dark .card {
     background: #232a34;
@@ -187,24 +172,7 @@ body.dark .card p {
 }
 
 
-/* Main Sections */
-
-body.dark .add-transaction,
-body.dark .transactions {
-    background: #232a34;
-    color: #ffffff;
-}
-
-
-/* Section headings */
-
-body.dark .add-transaction h2,
-body.dark .transactions h2 {
-    color: #ffffff;
-}
-
-
-/* Inputs */
+/* Form fields */
 
 body.dark input,
 body.dark select {
@@ -218,30 +186,23 @@ body.dark input::placeholder {
 }
 
 
-/* Buttons */
-
-body.dark button {
-    color: white;
-}
-
-
-/* Transaction Cards */
+/* Transaction cards */
 
 body.dark .transaction-card {
     background: #313843;
-    color: white;
+    color: #ffffff;
 }
 
 body.dark .transaction-card h3 {
-    color: white;
+    color: #ffffff;
 }
 
 body.dark .transaction-card p {
     color: #d5d5d5;
 }
 
-body.dark .transaction-right strong {
-    color: white;
+body.dark .transaction-card strong {
+    color: #ffffff;
 }
 
 
@@ -249,18 +210,29 @@ body.dark .transaction-right strong {
 
 body.dark #search-input {
     background: #313843;
-    color: white;
+    color: #ffffff;
+}
+
+body.dark #search-input::placeholder {
+    color: #bbbbbb;
 }
 
 
-/* Category Summary */
+/* Empty state */
+
+body.dark .empty-state {
+    color: #bbbbbb;
+}
+
+
+/* Category summary */
 
 body.dark #category-summary {
-    color: white;
+    color: #ffffff;
 }
 
 
-/* Canvas */
+/* Chart */
 
 body.dark canvas {
     background: #232a34;
