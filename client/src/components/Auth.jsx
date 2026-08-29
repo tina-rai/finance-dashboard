@@ -1,7 +1,8 @@
 import { useState } from "react";
 
-const API_URL = "http://localhost:5000";
-
+const API_URL = import.meta.env.DEV
+    ? "http://localhost:5000"
+    : "";
 function Auth({ onLogin }) {
     const [mode, setMode] = useState("login");
 

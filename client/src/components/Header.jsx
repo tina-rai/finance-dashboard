@@ -1,3 +1,6 @@
+const API_URL = import.meta.env.DEV
+    ? "http://localhost:5000"
+    : "";
 function Header({
     user,
     darkMode,
@@ -8,7 +11,7 @@ function Header({
     const logout = async () => {
 
         await fetch(
-            "http://localhost:5000/api/auth/logout",
+            "`${API_URL}/api/auth/logout`://localhost:5000/api/auth/logout`",
             {
                 method: "POST",
                 credentials: "include"
