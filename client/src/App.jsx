@@ -8,8 +8,7 @@ import Auth from "./components/Auth";
 
 import "./App.css";
 
-const API_URL = "http://localhost:5000";
-
+const API_URL = "";
 function App() {
 
     const [user, setUser] = useState(null);

@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const session = require("express-session");
 const cors = require("cors");
+const path = require("path");
 
 const {
     createUser,
@@ -22,7 +23,10 @@ const PORT = process.env.PORT || 5000;
 
 app.use(
     cors({
-        origin: "http://localhost:5173",
+        origin:
+            process.env.NODE_ENV === "production"
+                ? true
+                : "http://localhost:5173",
         credentials: true
     })
 );
@@ -40,7 +44,11 @@ app.use(
 
         cookie: {
             httpOnly: true,
-            secure: false,
+            secure: process.env.NODE_ENV === "production",
+            sameSite:
+                process.env.NODE_ENV === "production"
+                    ? "lax"
+                    : "lax",
             maxAge: 1000 * 60 * 60 * 24
         }
     })
@@ -341,7 +349,29 @@ app.get(
 
     }
 );
+// =========================
+// SERVE REACT FRONTEND
+// =========================
 
+const clientPath = path.join(
+    __dirname,
+    "..",
+    "client",
+    "dist"
+);
+
+app.use(express.static(clientPath));
+
+app.use(
+    (req, res) => {
+        res.sendFile(
+            path.join(
+                clientPath,
+                "index.html"
+            )
+        );
+    }
+);
 app.listen(
     PORT,
     () => {
