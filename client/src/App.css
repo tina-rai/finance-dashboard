@@ -265,7 +265,76 @@ button {
   place-items: center;
   font-size: 20px;
 }
+/* Guest dashboard */
 
+.guest-section {
+  text-align: center;
+  padding: 40px 20px;
+  margin: 30px 0;
+}
+
+.guest-section h2 {
+  margin-bottom: 10px;
+}
+
+.guest-section p {
+  margin-bottom: 20px;
+}
+
+.add-transaction-button {
+  border: none;
+  padding: 12px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+
+/* Authentication modal */
+
+.auth-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  z-index: 1000;
+}
+
+.auth-modal-content {
+  position: relative;
+  width: 100%;
+  max-width: 430px;
+}
+
+.auth-modal-close {
+  position: absolute;
+
+  top: 12px;
+  right: 12px;
+
+  width: 32px;
+  height: 32px;
+
+  border: none;
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  font-size: 22px;
+
+  z-index: 2;
+}
+
+.auth-modal .auth-card {
+  width: 100%;
+  margin: 0;
+}
 @media (max-width: 800px) {
 
   .header {

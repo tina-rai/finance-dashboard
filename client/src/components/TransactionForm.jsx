@@ -4,6 +4,7 @@ function TransactionForm({ onAdd }) {
 
     const [title, setTitle] = useState("");
     const [amount, setAmount] = useState("");
+    const [currency, setCurrency] = useState("USD");
     const [category, setCategory] = useState("Food");
     const [type, setType] = useState("expense");
     const [loading, setLoading] = useState(false);
@@ -29,12 +30,14 @@ function TransactionForm({ onAdd }) {
             await onAdd({
                 title: title.trim(),
                 amount: numericAmount,
+                currency,
                 category,
                 type
             });
 
             setTitle("");
             setAmount("");
+            setCurrency("USD");
             setCategory("Food");
             setType("expense");
 
@@ -87,6 +90,21 @@ function TransactionForm({ onAdd }) {
                         setAmount(event.target.value)
                     }
                 />
+
+                <select
+                    value={currency}
+                    onChange={(event) =>
+                        setCurrency(event.target.value)
+                    }
+                >
+                    <option value="USD">
+                        USD ($)
+                    </option>
+
+                    <option value="NPR">
+                        NPR (रू)
+                    </option>
+                </select>
 
                 <select
                     value={category}

@@ -15,9 +15,10 @@ router.get("/", async (req, res) => {
                 id,
                 title,
                 amount,
-                category,
-                type,
-                transaction_date AS date
+               category,
+type,
+currency,
+transaction_date AS date
             FROM transactions
             WHERE user_id = $1
             ORDER BY transaction_date DESC
@@ -55,7 +56,8 @@ router.post("/", async (req, res) => {
             title,
             amount,
             category,
-            type
+            type,
+            currency
         } = req.body;
 
 
@@ -63,7 +65,8 @@ router.post("/", async (req, res) => {
             !title ||
             !amount ||
             !category ||
-            !["income", "expense"].includes(type)
+            !["income", "expense"].includes(type) ||
+            !["USD", "NPR"].includes(currency)
         ) {
 
             return res.status(400).json({
@@ -76,29 +79,32 @@ router.post("/", async (req, res) => {
 
         const result = await pool.query(
             `
-            INSERT INTO transactions
-            (
-                user_id,
-                title,
-                amount,
-                category,
-                type
-            )
-            VALUES ($1, $2, $3, $4, $5)
-            RETURNING
-                id,
-                title,
-                amount,
-                category,
-                type,
-                transaction_date AS date
+       INSERT INTO transactions
+(
+    user_id,
+    title,
+    amount,
+    category,
+    type,
+    currency
+)
+VALUES ($1, $2, $3, $4, $5, $6)
+           RETURNING
+    id,
+    title,
+    amount,
+    category,
+    type,
+    currency,
+    transaction_date AS date
             `,
             [
                 req.session.user.id,
                 title.trim(),
                 Number(amount),
                 category,
-                type
+                type,
+                currency
             ]
         );
 
@@ -151,6 +157,7 @@ router.put("/:id", async (req, res) => {
                 amount,
                 category,
                 type,
+                currency,
                 transaction_date AS date
             `,
             [

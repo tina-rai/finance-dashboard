@@ -34,11 +34,24 @@ function TransactionList({
                 : new Date(a.date) - new Date(b.date);
         });
 
+
+    const getCurrencySymbol = (currency) => {
+
+        return currency === "NPR"
+            ? "रू "
+            : "$";
+
+    };
+
+
     const startEditing = (transaction) => {
+
         setEditingId(transaction.id);
         setEditTitle(transaction.title);
         setEditAmount(transaction.amount);
+
     };
+
 
     const saveEdit = (transaction) => {
 
@@ -54,7 +67,9 @@ function TransactionList({
         });
 
         setEditingId(null);
+
     };
+
 
     return (
         <section className="transaction-section">
@@ -101,114 +116,141 @@ function TransactionList({
 
             </div>
 
+
             {filteredTransactions.length === 0 ? (
 
                 <p className="empty-message">
-                    No transactions found.
+                    {transactions.length === 0
+                        ? "No transactions yet."
+                        : "No transactions found."}
                 </p>
 
             ) : (
 
                 <div className="transaction-list">
 
-                    {filteredTransactions.map((transaction) => (
+                    {filteredTransactions.map(
+                        (transaction) => (
 
-                        <div
-                            className="transaction-item"
-                            key={transaction.id}
-                        >
+                            <div
+                                className="transaction-item"
+                                key={transaction.id}
+                            >
 
-                            {editingId === transaction.id ? (
+                                {editingId === transaction.id ? (
 
-                                <div className="edit-form">
+                                    <div className="edit-form">
 
-                                    <input
-                                        value={editTitle}
-                                        onChange={(event) =>
-                                            setEditTitle(
-                                                event.target.value
-                                            )
-                                        }
-                                    />
+                                        <input
+                                            value={editTitle}
+                                            onChange={(event) =>
+                                                setEditTitle(
+                                                    event.target.value
+                                                )
+                                            }
+                                        />
 
-                                    <input
-                                        type="number"
-                                        value={editAmount}
-                                        onChange={(event) =>
-                                            setEditAmount(
-                                                event.target.value
-                                            )
-                                        }
-                                    />
+                                        <input
+                                            type="number"
+                                            min="0"
+                                            step="0.01"
+                                            value={editAmount}
+                                            onChange={(event) =>
+                                                setEditAmount(
+                                                    event.target.value
+                                                )
+                                            }
+                                        />
 
-                                    <button
-                                        onClick={() =>
-                                            saveEdit(transaction)
-                                        }
-                                    >
-                                        Save
-                                    </button>
+                                        <button
+                                            onClick={() =>
+                                                saveEdit(
+                                                    transaction
+                                                )
+                                            }
+                                        >
+                                            Save
+                                        </button>
 
-                                    <button
-                                        onClick={() =>
-                                            setEditingId(null)
-                                        }
-                                    >
-                                        Cancel
-                                    </button>
+                                        <button
+                                            onClick={() =>
+                                                setEditingId(null)
+                                            }
+                                        >
+                                            Cancel
+                                        </button>
 
-                                </div>
+                                    </div>
 
-                            ) : (
+                                ) : (
 
-                                <>
-                                    <div>
+                                    <>
+                                        <div>
+
+                                            <strong>
+                                                {transaction.title}
+                                            </strong>
+
+                                            <small>
+                                                {transaction.category}
+                                                {" • "}
+                                                {new Date(
+                                                    transaction.date
+                                                ).toLocaleDateString()}
+                                            </small>
+
+                                        </div>
+
+
                                         <strong>
-                                            {transaction.title}
+
+                                            {transaction.type === "income"
+                                                ? "+"
+                                                : "-"}
+
+                                            {getCurrencySymbol(
+                                                transaction.currency
+                                            )}
+
+                                            {Number(
+                                                transaction.amount
+                                            ).toFixed(2)}
+
                                         </strong>
 
-                                        <small>
-                                            {transaction.category}
-                                            {" • "}
-                                            {new Date(
-                                                transaction.date
-                                            ).toLocaleDateString()}
-                                        </small>
-                                    </div>
 
-                                    <strong>
-                                        {transaction.type === "income"
-                                            ? "+"
-                                            : "-"}
-                                        ${Number(transaction.amount).toFixed(2)}
-                                    </strong>
+                                        <div className="transaction-actions">
 
-                                    <div className="transaction-actions">
+                                            <button
+                                                onClick={() =>
+                                                    startEditing(
+                                                        transaction
+                                                    )
+                                                }
+                                            >
+                                                Edit
+                                            </button>
 
-                                        <button
-                                            onClick={() =>
-                                                startEditing(transaction)
-                                            }
-                                        >
-                                            Edit
-                                        </button>
+                                            <button
+                                                onClick={() =>
+                                                    onDelete(
+                                                        transaction.id
+                                                    )
+                                                }
+                                            >
+                                                Delete
+                                            </button>
 
-                                        <button
-                                            onClick={() =>
-                                                onDelete(transaction.id)
-                                            }
-                                        >
-                                            Delete
-                                        </button>
+                                        </div>
 
-                                    </div>
-                                </>
+                                    </>
 
-                            )}
+                                )}
 
-                        </div>
+                            </div>
 
-                    ))}
+                        )
+                    )}
 
                 </div>
 

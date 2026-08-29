@@ -1,6 +1,8 @@
+
 const API_URL = import.meta.env.DEV
     ? "http://localhost:5000"
     : "";
+
 function Header({
     user,
     darkMode,
@@ -10,13 +12,24 @@ function Header({
 
     const logout = async () => {
 
-        await fetch(
-            "`${API_URL}/api/auth/logout`://localhost:5000/api/auth/logout`",
-            {
-                method: "POST",
-                credentials: "include"
-            }
-        );
+        try {
+
+            await fetch(
+                `${API_URL}/api/auth/logout`,
+                {
+                    method: "POST",
+                    credentials: "include"
+                }
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Logout failed:",
+                error
+            );
+
+        }
 
         onLogout();
     };
@@ -30,11 +43,22 @@ function Header({
 
                 <h1>Finance Dashboard</h1>
 
-                <p>
-                    Welcome, {user.name}
-                </p>
+                {user ? (
+
+                    <p>
+                        Welcome, {user.name}
+                    </p>
+
+                ) : (
+
+                    <p>
+                        Manage your finances with ease.
+                    </p>
+
+                )}
 
             </div>
+
 
             <div className="header-actions">
 
@@ -49,18 +73,24 @@ function Header({
                         : "🌙 Dark Mode"}
                 </button>
 
-                <button
-                    className="logout-button"
-                    onClick={logout}
-                >
-                    Logout
-                </button>
+
+                {user && (
+
+                    <button
+                        className="logout-button"
+                        onClick={logout}
+                    >
+                        Logout
+                    </button>
+
+                )}
 
             </div>
 
         </header>
 
     );
+
 }
 
 export default Header;

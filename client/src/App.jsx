@@ -10,9 +10,14 @@ import "./App.css";
 
 const API_URL = import.meta.env.DEV
     ? "http://localhost:5000"
-    : "";function App() {
+    : "";
+
+function App() {
 
     const [user, setUser] = useState(null);
+
+    const [showAuth, setShowAuth] =
+        useState(false);
 
     const [darkMode, setDarkMode] =
         useState(false);
@@ -67,49 +72,51 @@ const API_URL = import.meta.env.DEV
     useEffect(() => {
 
         if (!user) {
+            setTransactions([]);
             return;
         }
-    
+
         const loadTransactions = async () => {
-    
+
             try {
-    
+
                 const response = await fetch(
                     `${API_URL}/api/transactions`,
                     {
                         credentials: "include"
                     }
                 );
-    
+
                 const data = await response.json();
-    
+
                 if (!response.ok) {
-    
+
                     throw new Error(
                         data.message ||
                         "Unable to load transactions."
                     );
-    
+
                 }
-    
+
                 setTransactions(
                     data.transactions || []
                 );
-    
+
             } catch (error) {
-    
+
                 console.error(
                     "Transaction loading failed:",
                     error
                 );
-    
+
             }
-    
+
         };
-    
+
         loadTransactions();
-    
+
     }, [user]);
+
 
     if (loading) {
 
@@ -122,17 +129,15 @@ const API_URL = import.meta.env.DEV
     }
 
 
-    if (!user) {
-
-        return (
-            <Auth onLogin={setUser} />
+    // Calculate USD totals
+    const usdTransactions =
+        transactions.filter(
+            (transaction) =>
+                transaction.currency === "USD"
         );
 
-    }
-
-
-    const income =
-        transactions
+    const usdIncome =
+        usdTransactions
             .filter(
                 (transaction) =>
                     transaction.type === "income"
@@ -143,9 +148,8 @@ const API_URL = import.meta.env.DEV
                 0
             );
 
-
-    const expenses =
-        transactions
+    const usdExpenses =
+        usdTransactions
             .filter(
                 (transaction) =>
                     transaction.type === "expense"
@@ -156,9 +160,78 @@ const API_URL = import.meta.env.DEV
                 0
             );
 
+    const usdBalance =
+        usdIncome - usdExpenses;
 
-    const balance =
-        income - expenses;
+
+    // Calculate NPR totals
+    const nprTransactions =
+        transactions.filter(
+            (transaction) =>
+                transaction.currency === "NPR"
+        );
+
+    const nprIncome =
+        nprTransactions
+            .filter(
+                (transaction) =>
+                    transaction.type === "income"
+            )
+            .reduce(
+                (total, transaction) =>
+                    total + Number(transaction.amount),
+                0
+            );
+
+    const nprExpenses =
+        nprTransactions
+            .filter(
+                (transaction) =>
+                    transaction.type === "expense"
+            )
+            .reduce(
+                (total, transaction) =>
+                    total + Number(transaction.amount),
+                0
+            );
+
+    const nprBalance =
+        nprIncome - nprExpenses;
+
+
+    const handleLogin = (loggedInUser) => {
+
+        setUser(loggedInUser);
+        setShowAuth(false);
+
+    };
+
+
+    const handleLogout = async () => {
+
+        try {
+
+            await fetch(
+                `${API_URL}/api/auth/logout`,
+                {
+                    method: "POST",
+                    credentials: "include"
+                }
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Logout failed:",
+                error
+            );
+
+        }
+
+        setUser(null);
+        setTransactions([]);
+
+    };
 
 
     return (
@@ -175,53 +248,97 @@ const API_URL = import.meta.env.DEV
                 user={user}
                 darkMode={darkMode}
                 setDarkMode={setDarkMode}
-                onLogout={() => setUser(null)}
+                onLogout={handleLogout}
             />
+
 
             <main className="dashboard">
 
                 <SummaryCards
-                    balance={balance}
-                    income={income}
-                    expenses={expenses}
+                    usdBalance={usdBalance}
+                    usdIncome={usdIncome}
+                    usdExpenses={usdExpenses}
+                    nprBalance={nprBalance}
+                    nprIncome={nprIncome}
+                    nprExpenses={nprExpenses}
                 />
 
-<TransactionForm
-    onAdd={async (transaction) => {
 
-        const response = await fetch(
-            `${API_URL}/api/transactions`,
-            {
-                method: "POST",
+                {!user && (
 
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                    <section className="guest-section">
 
-                credentials: "include",
+                        <h2>Track your finances</h2>
 
-                body: JSON.stringify(transaction)
-            }
-        );
+                        <p>
+                            Add income and expenses to keep
+                            your finances organized.
+                        </p>
 
-        const data = await response.json();
+                        <button
+                            className="add-transaction-button"
+                            onClick={() =>
+                                setShowAuth(true)
+                            }
+                        >
+                            Add Transaction
+                        </button>
 
-        if (!response.ok) {
+                    </section>
 
-            throw new Error(
-                data.message ||
-                "Unable to add transaction."
-            );
+                )}
 
-        }
 
-        setTransactions((current) => [
-            data.transaction,
-            ...current
-        ]);
+                {user && (
 
-    }}
-/>
+                    <TransactionForm
+                        onAdd={async (transaction) => {
+
+                            const response =
+                                await fetch(
+                                    `${API_URL}/api/transactions`,
+                                    {
+                                        method: "POST",
+
+                                        headers: {
+                                            "Content-Type":
+                                                "application/json"
+                                        },
+
+                                        credentials:
+                                            "include",
+
+                                        body:
+                                            JSON.stringify(
+                                                transaction
+                                            )
+                                    }
+                                );
+
+                            const data =
+                                await response.json();
+
+                            if (!response.ok) {
+
+                                throw new Error(
+                                    data.message ||
+                                    "Unable to add transaction."
+                                );
+
+                            }
+
+                            setTransactions(
+                                (current) => [
+                                    data.transaction,
+                                    ...current
+                                ]
+                            );
+
+                        }}
+                    />
+
+                )}
+
 
                 <TransactionList
                     transactions={transactions}
@@ -262,12 +379,15 @@ const API_URL = import.meta.env.DEV
                                 `${API_URL}/api/transactions/${id}`,
                                 {
                                     method: "PUT",
+
                                     headers: {
                                         "Content-Type":
                                             "application/json"
                                     },
+
                                     credentials:
                                         "include",
+
                                     body:
                                         JSON.stringify(
                                             updatedTransaction
@@ -296,6 +416,33 @@ const API_URL = import.meta.env.DEV
                 />
 
             </main>
+
+
+            {showAuth && (
+
+                <div className="auth-modal">
+
+                    <div className="auth-modal-content">
+
+                        <button
+                            className="auth-modal-close"
+                            onClick={() =>
+                                setShowAuth(false)
+                            }
+                            aria-label="Close"
+                        >
+                            ×
+                        </button>
+
+                        <Auth
+                            onLogin={handleLogin}
+                        />
+
+                    </div>
+
+                </div>
+
+            )}
 
         </div>
 

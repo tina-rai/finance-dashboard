@@ -23,15 +23,26 @@ const transactionRoutes =
     const PORT = process.env.PORT || 5000;
 
 
-app.use(
-    cors({
-        origin:
-            process.env.NODE_ENV === "production"
-                ? true
-                : "http://localhost:5173",
-        credentials: true
-    })
-);
+    app.use(
+        cors({
+            origin: (origin, callback) => {
+    
+                const allowedOrigins = [
+                    "http://localhost:5173",
+                    "http://localhost:5174",
+                    "http://localhost:5175"
+                ];
+    
+                if (!origin || allowedOrigins.includes(origin)) {
+                    callback(null, true);
+                } else {
+                    callback(new Error("Not allowed by CORS"));
+                }
+    
+            },
+            credentials: true
+        })
+    );
 
 app.use(express.json());
 
