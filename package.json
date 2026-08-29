@@ -1,0 +1,29 @@
+{
+  "name": "finance-dashboard",
+  "version": "1.0.0",
+  "description": "A responsive personal finance dashboard built with **HTML, CSS, and JavaScript**. It allows users to track income and expenses, manage transactions, visualize spending, and export their financial data.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tina-rai/finance-dashboard.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/tina-rai/finance-dashboard/issues"
+  },
+  "homepage": "https://github.com/tina-rai/finance-dashboard#readme",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "pg": "^8.23.0"
+  }
+}
