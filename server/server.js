@@ -33,13 +33,18 @@ const transactionRoutes =
                     "http://localhost:5175"
                 ];
     
-                if (!origin || allowedOrigins.includes(origin)) {
+                if (
+                    !origin ||
+                    process.env.NODE_ENV === "production" ||
+                    allowedOrigins.includes(origin)
+                ) {
                     callback(null, true);
                 } else {
                     callback(new Error("Not allowed by CORS"));
                 }
     
             },
+    
             credentials: true
         })
     );
@@ -58,10 +63,7 @@ app.use(
         cookie: {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite:
-                process.env.NODE_ENV === "production"
-                    ? "lax"
-                    : "lax",
+            sameSite: "lax",
             maxAge: 1000 * 60 * 60 * 24
         }
     })
