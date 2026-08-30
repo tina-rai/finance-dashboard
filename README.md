@@ -2,6 +2,35 @@
 
 The project originally started as a **vanilla JavaScript finance dashboard** using Local Storage and was later rebuilt into a full-stack application with **React, Express.js, PostgreSQL, and session-based authentication**.
 
+## Live Demo
+
+[View Financedashboard Live](https://finance-dashboard-cozi.onrender.com/)
+## GitHub Repository
+
+https://github.com/tina-rai/finance-dashboard
+
+---
+## Screenshots
+
+### Dashboard
+
+![Finance Dashboard](screenshots/dashboard.png)
+
+### Authentication
+
+![Authentication](screenshots/login.png)
+
+### Transactions
+
+![Transactions](screenshots/transactions.png)
+
+### Dark Mode
+
+![Dark Mode](screenshots/dark-mode.png)
+
+
+
+---
 ## Features
 
 ### Authentication
@@ -139,23 +168,6 @@ finance-dashboard/
 └── README.md
 ```
 
-## Screenshots
-
-### Dashboard
-
-![Finance Dashboard](screenshots/dashboard.png)
-
-### Authentication
-
-![Authentication](screenshots/login.png)
-
-### Transactions
-
-![Transactions](screenshots/transactions.png)
-
-### Dark Mode
-
-![Dark Mode](screenshots/dark-mode.png)
 
 ## Getting Started
 
